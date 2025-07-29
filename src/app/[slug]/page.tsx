@@ -72,14 +72,14 @@ export async function generateMetadata({params}: PageParams): Promise<Metadata> 
         openGraph: {
             title: `Homenagem a ${person.name}`,
             description: cleanBiography ?? 'Uma homenagem eterna.',
-            images: [person.avatar_thumbnail],
+            images: person.avatar_thumbnail ?? '/compartilhamento.webp',
             url: `https://eternizey.com/${person.slug}`,
         },
         twitter: {
             card: "summary_large_image",
             title: `Homenagem a ${person.name}`,
             description: cleanBiography,
-            images: [person.avatar_thumbnail],
+            images: person.avatar_thumbnail ?? '/compartilhamento.webp',
             site: "@eternizey", // (opcional) substitua pelo seu @ no Twitter
             creator: "@eternizey", // (opcional) substitua pelo autor
         },
