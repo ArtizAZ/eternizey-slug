@@ -56,12 +56,14 @@ async function getPerson(slug: string): Promise<Person | null> {
 export default async function Page({ params }: PageParams): Promise<JSX.Element> {
     const { slug } = await params;
 
-    console.log(slug);
+    console.log('slug', slug);
+    console.log('process.env.USERNAME', process.env.USERNAME);
+    console.log('process.env.PASSWORD', process.env.PASSWORD);
 
     const person = await getPerson(slug);
 
     if (!person) {
-        return <p>Pessoa não encontrada</p>;
+        return <p>{slug} Pessoa não encontrada</p>;
     }
 
     return (
