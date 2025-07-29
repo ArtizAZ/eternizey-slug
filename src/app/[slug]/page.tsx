@@ -1,5 +1,5 @@
-import Head from 'next/head'
 import RedirectClient from './RedirectClient'
+import {Metadata} from 'next';
 import axios from "axios";
 import {JSX} from "react";
 
@@ -53,8 +53,31 @@ async function getPerson(slug: string): Promise<Person | null> {
     }
 }
 
-export default async function Page({ params }: PageParams): Promise<JSX.Element> {
-    const { slug } = await params;
+export async function generateMetadata({params}: PageParams): Promise<Metadata> {
+    const {slug} = await params;
+
+    const person = await getPerson(slug);
+
+    if (!person) {
+        return {
+            title: 'Pessoa não encontrada | Eternizey',
+        };
+    }
+
+    return {
+        title: `${person.name} | Eternizey`,
+        description: person.biography ?? 'Uma homenagem eterna.',
+        openGraph: {
+            title: `Homenagem a ${person.name}`,
+            description: person.biography ?? 'Uma homenagem eterna.',
+            images: [person.avatar_thumbnail],
+            url: `https://eternizey.com/${person.slug}`,
+        },
+    };
+}
+
+export default async function Page({params}: PageParams): Promise<JSX.Element> {
+    const {slug} = await params;
 
     console.log('slug', slug);
     console.log('process.env.USERNAME', process.env.USERNAME);
@@ -63,23 +86,16 @@ export default async function Page({ params }: PageParams): Promise<JSX.Element>
     const person = await getPerson(slug);
 
     if (!person) {
-        return <p>{slug} Pessoa não encontrada</p>;
+        return <p>{slug}: Pessoa não encontrada</p>;
     }
 
     return (
-        <>
-            <Head>
-                <title>{person.name} | Eternizey</title>
-                <meta property="og:title" content={`Homenagem a ${person.name}`}/>
-                <meta property="og:description" content={person.biography || 'Uma homenagem eterna.'}/>
-                <meta property="og:image" content={person.avatar_thumbnail}/>
-                <meta property="og:url" content={`https://eternizey.com/${person.slug}`}/>
-            </Head>
-
+        <body>
             <main>
                 <h1>Redirecionando para homenagem de {person.name}...</h1>
-                <RedirectClient slug={person.slug}/>
+                {/* Ativa se quiser redirecionamento no client */}
+                {/* <RedirectClient slug={person.slug} /> */}
             </main>
-        </>
+        </body>
     );
 }
