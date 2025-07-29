@@ -35,6 +35,8 @@ async function getPerson(slug: string): Promise<Person | null> {
 
         const token = loginRes.data.access_token;
 
+        console.log(token);
+
         const personRes = await axios.get(`${authApi}/api/v1/immortalized_person/site/${slug}`, {
             headers: {
                 'Content-Type': 'application/json',
@@ -53,6 +55,8 @@ async function getPerson(slug: string): Promise<Person | null> {
 
 export default async function Page({ params }: PageParams): Promise<JSX.Element> {
     const { slug } = await params;
+
+    console.log(slug);
 
     const person = await getPerson(slug);
 
