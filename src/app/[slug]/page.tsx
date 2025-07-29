@@ -1,12 +1,19 @@
 import Head from 'next/head'
 import RedirectClient from './RedirectClient'
 import axios from "axios";
+import {JSX} from "react";
 
 type Person = {
     name: string;
     biography?: string;
     avatar_thumbnail: string;
     slug: string;
+};
+
+type PageParams = {
+    params: {
+        slug: string;
+    };
 };
 
 const authApi = process.env.AUTH_API_URL;
@@ -44,8 +51,10 @@ async function getPerson(slug: string): Promise<Person | null> {
     }
 }
 
-export default async function Page({params}: { params: { slug: string } }) {
-    const person = await getPerson(params.slug);
+export default async function Page({ params }: PageParams): Promise<JSX.Element> {
+    const { slug } = params;
+
+    const person = await getPerson(slug);
 
     if (!person) {
         return <p>Pessoa não encontrada</p>;
