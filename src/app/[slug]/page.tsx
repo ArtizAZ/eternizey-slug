@@ -11,9 +11,9 @@ type Person = {
 };
 
 type PageParams = {
-    params: {
+    params: Promise<{
         slug: string;
-    };
+    }>;
 };
 
 const authApi = process.env.AUTH_API_URL;
@@ -52,7 +52,7 @@ async function getPerson(slug: string): Promise<Person | null> {
 }
 
 export default async function Page({ params }: PageParams): Promise<JSX.Element> {
-    const { slug } = params;
+    const { slug } = await params;
 
     const person = await getPerson(slug);
 
