@@ -16,15 +16,15 @@ type PageParams = {
     }>;
 };
 
-const authApi = process.env.AUTH_API_URL;
+const authApi = process.env.NEXT_PUBLIC_AUTH_API_URL;
 
 async function getPerson(slug: string): Promise<Person | null> {
     try {
         const loginRes = await axios.post(
             `${authApi}/api/v1/login/site`,
             {
-                email: process.env.USERNAME,
-                password: process.env.PASSWORD,
+                email: process.env.NEXT_PUBLIC_USERNAME,
+                password: process.env.NEXT_PUBLIC_PASSWORD,
             },
             {
                 headers: {
