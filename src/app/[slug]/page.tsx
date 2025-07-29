@@ -94,7 +94,7 @@ export default async function Page({params}: PageParams): Promise<JSX.Element> {
             <main>
                 <h1>Redirecionando para homenagem de {person.name}...</h1>
                 {/* Ativa se quiser redirecionamento no client */}
-                {/* <RedirectClient slug={person.slug} /> */}
+                 <RedirectClient slug={person.slug} />
             </main>
         </body>
     );
