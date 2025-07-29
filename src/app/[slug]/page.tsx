@@ -64,14 +64,24 @@ export async function generateMetadata({params}: PageParams): Promise<Metadata> 
         };
     }
 
+    const cleanBiography = (person.biography ?? "Uma homenagem eterna.").replace(/["']/g, "");
+
     return {
         title: `${person.name} | Eternizey`,
         description: person.biography ?? 'Uma homenagem eterna.',
         openGraph: {
             title: `Homenagem a ${person.name}`,
-            description: person.biography ?? 'Uma homenagem eterna.',
+            description: cleanBiography ?? 'Uma homenagem eterna.',
             images: [person.avatar_thumbnail],
             url: `https://eternizey.com/${person.slug}`,
+        },
+        twitter: {
+            card: "summary_large_image",
+            title: `Homenagem a ${person.name}`,
+            description: cleanBiography,
+            images: [person.avatar_thumbnail],
+            site: "@eternizey", // (opcional) substitua pelo seu @ no Twitter
+            creator: "@eternizey", // (opcional) substitua pelo autor
         },
     };
 }
