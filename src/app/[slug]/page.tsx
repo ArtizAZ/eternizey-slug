@@ -2,6 +2,7 @@ import RedirectClient from './RedirectClient'
 import {Metadata} from 'next';
 import axios from "axios";
 import {JSX} from "react";
+import {getImageS3} from "@/helpers/getImageS3";
 
 type Person = {
     name: string;
@@ -72,14 +73,14 @@ export async function generateMetadata({params}: PageParams): Promise<Metadata> 
         openGraph: {
             title: `Homenagem a ${person.name}`,
             description: cleanBiography ?? 'Uma homenagem eterna.',
-            images: person.avatar_thumbnail ?? '/compartilhamento.webp',
+            images: getImageS3(person.avatar_thumbnail) ?? '/compartilhamento.webp',
             url: `https://eternizey.com/${person.slug}`,
         },
         twitter: {
             card: "summary_large_image",
             title: `Homenagem a ${person.name}`,
             description: cleanBiography,
-            images: person.avatar_thumbnail ?? '/compartilhamento.webp',
+            images: getImageS3(person.avatar_thumbnail) ?? '/compartilhamento.webp',
             site: "@eternizey", // (opcional) substitua pelo seu @ no Twitter
             creator: "@eternizey", // (opcional) substitua pelo autor
         },
@@ -102,7 +103,7 @@ export default async function Page({params}: PageParams): Promise<JSX.Element> {
     return (
         <body>
             <main>
-                <h1>Redirecionando para homenagem de {person.name}...</h1>
+                {/*<h1>Redirecionando para homenagem de {person.name}...</h1>*/}
                 {/* Ativa se quiser redirecionamento no client */}
                  <RedirectClient slug={person.slug} />
             </main>
