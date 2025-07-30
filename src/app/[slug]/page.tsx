@@ -36,8 +36,6 @@ async function getPerson(slug: string): Promise<Person | null> {
 
         const token = loginRes.data.access_token;
 
-        console.log(token);
-
         const personRes = await axios.get(`${authApi}/api/v1/immortalized_person/site/${slug}`, {
             headers: {
                 'Content-Type': 'application/json',
@@ -45,7 +43,6 @@ async function getPerson(slug: string): Promise<Person | null> {
             },
         });
 
-        console.log(personRes.data.immortalized_person);
         return personRes.data.immortalized_person;
 
     } catch (err) {
@@ -90,10 +87,6 @@ export async function generateMetadata({params}: PageParams): Promise<Metadata> 
 export default async function Page({params}: PageParams): Promise<JSX.Element> {
     const {slug} = await params;
 
-    console.log('slug', slug);
-    console.log('process.env.USERNAME', process.env.USERNAME);
-    console.log('process.env.PASSWORD', process.env.PASSWORD);
-
     const person = await getPerson(slug);
 
     if (!person) {
@@ -105,7 +98,7 @@ export default async function Page({params}: PageParams): Promise<JSX.Element> {
             <main>
                 {/*<h1>Redirecionando para homenagem de {person.name}...</h1>*/}
                 {/* Ativa se quiser redirecionamento no client */}
-                 <RedirectClient slug={person.slug} />
+                {/* <RedirectClient slug={person.slug} />*/}
             </main>
         </body>
     );
